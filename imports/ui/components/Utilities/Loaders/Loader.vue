@@ -20,6 +20,9 @@
                 progressLabel: ''
             }
         },
+        mounted() {
+            Vue.prototype.$loader = this;
+        },
         methods: {
             activate(progressLabel = 'Cargando. . .') {
                 this.loader = true;

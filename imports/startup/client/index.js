@@ -5,9 +5,11 @@ import '../../ui/plugins/index';
 
 //Main app
 import App from '/imports/ui/App';
+import router from "../../ui/router";
 
 Meteor.startup(()=>{
    new Vue({
+       router,
        vuetify,
        render:h=>h(App)
    }).$mount("app");

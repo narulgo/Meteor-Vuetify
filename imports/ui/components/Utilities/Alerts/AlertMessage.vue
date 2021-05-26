@@ -47,6 +47,9 @@
                 timeout: 6000
             }
         },
+        mounted() {
+            Vue.prototype.$alert=this;
+        },
         methods: {
             /**
              * Show the alert with main configuration options
