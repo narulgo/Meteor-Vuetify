@@ -1,66 +1,70 @@
 <template>
     <v-app>
         <v-container>
-            <h1>Meteor JS y Vue JS</h1>
-            <v-btn color="primary">Hola</v-btn>
-            <v-btn color="secondary">Mundo</v-btn>
-            <v-row align="center">
-                <v-col cols="12" sm="6">
-                    <div class="text-center">
-                        <div class="my-2">
-                            <v-btn x-small color="secondary" dark>Extra small Button</v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn small color="primary" dark>Small Button</v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="warning" dark>Normal Button</v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="error" dark large>Large Button</v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn x-large color="success" dark>Extra large Button</v-btn>
-                        </div>
-                    </div>
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <div class="text-center">
-                        <div class="my-2">
-                            <v-btn color="secondary" fab x-small dark>
-                                <v-icon>mdi-television</v-icon>
-                            </v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="primary" fab small dark>
-                                <v-icon>mdi-pencil</v-icon>
-                            </v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="warning" outlined fab dark>
-                                <v-icon>stars</v-icon>
-                            </v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="error" fab large dark>
-                                <v-icon>mdi-alarm</v-icon>
-                            </v-btn>
-                        </div>
-                        <div class="my-2">
-                            <v-btn color="success" fab x-large dark>
-                                <v-icon>mdi-domain</v-icon>
-                            </v-btn>
-                        </div>
-                    </div>
-                </v-col>
-            </v-row>
+            <h1>Hola mundo con Meteor JS y Vue JS</h1>
+            <v-btn color="primary" @click="openAlert">Alerta</v-btn>
+            <v-btn color="success" @click="openLoader">Loader</v-btn>
+            <v-btn color="error" @click="openModalRemove">Modal remove</v-btn>
+
         </v-container>
+        <alert-message ref="refAlertMessageTest"></alert-message>
+        <loader ref="refLoaderTest"></loader>
+        <modal-remove ref="refModalRemove" v-bind:modalData="productTemp"
+                      @id_element="deleteUser"></modal-remove>
     </v-app>
 </template>
 
 <script>
+    import AlertMessage from "./components/Utilities/Alerts/AlertMessage";
+    import Loader from "./components/Utilities/Loaders/Loader";
+    import ModalRemove from "./components/Utilities/Modals/ModalRemove";
+
     export default {
-        name: "App"
+        name: "App",
+        components: {
+            AlertMessage,
+            Loader,
+            ModalRemove
+        },
+        data() {
+            return {
+                productTemp: {
+                    preposition: 'el',
+                    typeElement: 'producto',
+                    mainNameElement: '',
+                    _id: null,
+                    element: {}
+                }
+            }
+        },
+        methods: {
+            openAlert() {
+                this.$refs.refAlertMessageTest.showAlertFull("star", "success",
+                    "Logro desbloqueado", '', 5000, '', 'bottom', "Has pasado al siguiente nivel!!");
+            },
+            openLoader() {
+                this.$refs.refLoaderTest.activate();
+                setTimeout(() => {
+                    this.$refs.refLoaderTest.deactivate();
+                }, 3000);
+            },
+            openModalRemove() {
+                const product = {
+                    _id: "asdf1234",
+                    name: "iPhone 5",
+                    serialNumber: "XXX123123",
+                    price: 10000,
+                    brand: "Apple"
+                };
+                this.productTemp.element = product;
+                this.productTemp._id = product._id;
+                this.productTemp.mainNameElement = product.name;
+                this.$refs.refModalRemove.dialog = true;
+            },
+            deleteUser(idUser) {
+                console.log("Id del usuario a eliminar: ", idUser);
+            }
+        }
     }
 </script>
 
